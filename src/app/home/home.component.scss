@@ -1,0 +1,59 @@
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    background: black;
+}
+
+.actions-container {
+    width: 60vw;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.664);
+    height: 30%;
+    width: 30%;
+    position: relative;
+    top: 13rem;
+    margin: 0 auto;
+    border-radius: 5px;
+
+    a {
+        text-decoration: none;
+        color: black;
+        width:65%;
+        margin-top: 1.5rem;
+        background: rgb(255, 255, 255);
+        text-align: center;
+        height: 2rem;
+        padding-top: 1rem;
+    }
+}
+
+.hero {
+    height: 100vh;
+    width: 40vw;
+
+    img {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        display: none;
+    }
+
+    .actions-container {
+        width: 100vw;
+        background: rgba(231, 231, 231, 0.459) url(../../assets/images/hero-image.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}

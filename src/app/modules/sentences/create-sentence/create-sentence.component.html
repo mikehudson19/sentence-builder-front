@@ -1,1 +1,26 @@
-<p>create-sentence works!</p>
+<div class="container" >
+    <form action="" [formGroup]="createSentenceForm">
+        <mat-form-field>
+            <mat-select formControlName="wordType" name="wordType" placeholder="Word type">
+                <mat-option value="verb">Verb</mat-option>
+                <mat-option value="noun">Noun</mat-option>
+                <mat-option value="pronoun">Pronoun</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select formControlName="word" name="word" placeholder="Word">
+                <mat-option value="word 1">Word 1</mat-option>
+                <mat-option value="word 2">Word 2</mat-option>
+                <mat-option value="word 3">Word 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button (click)="addToSentence()">Add to sentence</button>
+    </form>
+
+    <div *ngIf="sentenceString" class="sentence-container">
+        <p>"{{ sentenceString }}..."</p>
+        <button (click)="submitSentence()">Submit sentence</button>
+    </div>
+</div>

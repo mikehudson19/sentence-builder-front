@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 0 auto;
+  }
+  
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    .header-actions {
+      display: flex;
+      width: 40%;
+      align-items: center;
+      justify-content: space-between;
+    }
+  
+    h1 {
+      margin-top: 1rem;
+    }
+  
+    .add-button {
+      width: 120px;
+      height: 28px;
+      color: black;
+      font-size: 14px;
+    }
+  
+    .add-button:hover {
+      cursor: pointer;
+    }
+  }
+
+  a:hover {
+    cursor: pointer;
+  }
+
+  
+  .mat-header-cell {
+    font-size: 15px;
+    color: black;
+  }
+  

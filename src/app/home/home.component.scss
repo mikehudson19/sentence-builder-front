@@ -13,24 +13,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     background: rgba(255, 255, 255, 0.664);
     height: 30%;
-    width: 30%;
+    width: 35%;
     position: relative;
     top: 13rem;
     margin: 0 auto;
     border-radius: 5px;
 
-    a {
-        text-decoration: none;
-        color: black;
+    button {
         width:65%;
-        margin-top: 1.5rem;
-        background: rgb(255, 255, 255);
-        text-align: center;
-        height: 2rem;
-        padding-top: 1rem;
     }
 }
 
@@ -44,7 +37,7 @@
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
     .hero {
         display: none;
     }
@@ -55,5 +48,15 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+    }
+
+    // .actions {
+    //     width: 40%;
+    // }
+}
+
+@media (max-width: 600px) {
+    .actions {
+        width: 55%;
     }
 }

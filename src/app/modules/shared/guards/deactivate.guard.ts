@@ -12,8 +12,11 @@ export class DeactivateGuard implements CanDeactivate<unknown> {
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      component.canExit();
-      return component.canExit$;
+      if (component.sentenceArray.length > 0) {
+        component.canExit();
+        return component.canExit$;
+      }
+      return true;
   }
   
 }

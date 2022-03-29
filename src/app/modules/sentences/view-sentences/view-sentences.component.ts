@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { SentencesService } from 'src/app/services/sentences.service';
+import { ISentence } from 'src/app/types/ISentence';
 
 @Component({
   selector: 'app-view-sentences',
@@ -40,7 +41,7 @@ export class ViewSentencesComponent implements OnInit {
     this.sentenceService.list()
       .pipe(
         map(res => {
-          return res.map((x: any) => x.value);
+          return res.map((x: ISentence) => x.value);
         })
       )
       .subscribe(data => {

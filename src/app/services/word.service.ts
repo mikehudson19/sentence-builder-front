@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
+import { IWord } from '../types/IWord';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ export class WordService {
 
   constructor(private http: HttpClient) { }
 
-  list(selection: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.apiUrl}/${selection}`);
+  list(selection: number): Observable<IWord[]> {
+    return this.http.get<IWord[]>(`${environment.apiUrl}/${this.apiUrl}/${selection}`);
   }
 }

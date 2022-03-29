@@ -6,6 +6,8 @@ import { map, Subject, Subscription } from 'rxjs';
 import { SentencesService } from 'src/app/services/sentences.service';
 import { WordTypeService } from 'src/app/services/word-type.service';
 import { WordService } from 'src/app/services/word.service';
+import { IWord } from 'src/app/types/IWord';
+import { IWordType } from 'src/app/types/IWordType';
 import { WordTypeEnum } from 'src/app/types/word-type-enum';
 import { ExitConfirmDialogComponent } from '../../shared/dialogs/exit-confirm-dialog/exit-confirm-dialog.component';
 
@@ -19,8 +21,8 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
   createSentenceForm: FormGroup
   sentenceArray: string[] = [];
   sentenceString: string;
-  wordTypes: string[] = [];
-  words: string[] = [];
+  wordTypes: IWordType[] = [];
+  words: IWord[] = [];
   loading = false;
   sub = new Subscription();
   canExit$: Subject<boolean> = new Subject<boolean>(); 
@@ -54,11 +56,6 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
 
   retrieveWordTypes(): void {
       this.wordTypeService.list()
-        .pipe(
-          map(res => {
-            return res.map((x: any) => x.wordType);
-          })
-        )
         .subscribe({
             next: (data) => {
               this.wordTypes = data;
@@ -78,14 +75,9 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
 
         if (selection !== 0) {
           this.wordService.list(selection)
-          .pipe(
-            map(res => {
-              return res.map((x: any) => x.word)
-            })
-          )
-          .subscribe(words => {
-            this.words = words;
-          }
+            .subscribe((words) => {
+              this.words = words;
+            }
           )};
       })
     )

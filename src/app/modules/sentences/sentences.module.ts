@@ -4,6 +4,7 @@ import { CreateSentenceComponent } from './create-sentence/create-sentence.compo
 import { ViewSentencesComponent } from './view-sentences/view-sentences.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LayoutModule } from '@angular/cdk/layout';
 
 
 
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    LayoutModule
   ]
 })
 export class SentencesModule { }

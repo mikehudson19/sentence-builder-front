@@ -2,7 +2,7 @@
     <form action="" [formGroup]="createSentenceForm">
         <mat-form-field>
             <mat-select (click)="wordTypeClick()" formControlName="wordType" name="wordType" placeholder="Select word type">
-                <mat-option *ngFor="let type of wordTypes" [value]="type">{{ type }}</mat-option>
+                <mat-option *ngFor="let type of wordTypes" [value]="type.value">{{ type.value }}</mat-option>
             </mat-select>
             <mat-error *ngFor="let validation of validationMessages.wordType">
                 <mat-error class="error-message" 
@@ -14,7 +14,7 @@
 
         <mat-form-field>
             <mat-select (click)="wordClick()" formControlName="word" name="word" placeholder="Select word">
-                <mat-option *ngFor="let word of words" [value]="word">{{ word }}</mat-option>
+                <mat-option *ngFor="let word of words" [value]="word.value">{{ word.value }}</mat-option>
             </mat-select>
             <mat-error *ngFor="let validation of validationMessages.word">
                 <mat-error class="error-message" 

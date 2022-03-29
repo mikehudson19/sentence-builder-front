@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ISentence } from '../types/ISentence';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,11 @@ export class SentencesService {
 
   constructor(private http: HttpClient) { }
 
-  list(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.apiUrl}`);
+  list(): Observable<ISentence[]> {
+    return this.http.get<ISentence[]>(`${environment.apiUrl}/${this.apiUrl}`);
   }
 
-  create(body: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.apiUrl}`, body);
+  create(body: any): Observable<ISentence> {
+    return this.http.post<ISentence>(`${environment.apiUrl}/${this.apiUrl}`, body);
   }
 }

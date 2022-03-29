@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { SentencesService } from 'src/app/services/sentences.service';
 import { WordTypeService } from 'src/app/services/word-type.service';
 import { WordService } from 'src/app/services/word.service';
@@ -20,6 +20,7 @@ export class CreateSentenceComponent implements OnInit {
   wordTypes: string[] = [];
   words: string[] = [];
   loading = false;
+  sub = new Subscription();
 
   validationMessages = {
     'wordType': [
@@ -42,22 +43,32 @@ export class CreateSentenceComponent implements OnInit {
       word: ["", [Validators.required]]
     })
 
-    this.wordTypeService.list()
-      .pipe(
-        map(res => {
-          return res.map((x: any) => x.wordType);
-        })
-      )
-      .subscribe({
-          next: (data) => {
-            this.wordTypes = data;
-          },
-          error: (e) => {
-            this.matSnackBar.open("Word type data couldn't be loaded!", "Close", { duration: 2000 });
-          },
-          complete: () => {}})
+    this.retrieveWordTypes();
 
-    this.createSentenceForm.get('wordType')?.valueChanges
+    this.retrieveWords();
+  }
+
+  retrieveWordTypes(): void {
+      this.wordTypeService.list()
+        .pipe(
+          map(res => {
+            return res.map((x: any) => x.wordType);
+          })
+        )
+        .subscribe({
+            next: (data) => {
+              this.wordTypes = data;
+            },
+            error: (e) => {
+              this.matSnackBar.open("Word type data couldn't be loaded!", "Close", { duration: 2000 });
+            },
+            complete: () => {}
+        })
+  }
+
+  retrieveWords(): void {
+    this.sub.add(
+      this.createSentenceForm.get('wordType')?.valueChanges
       .subscribe((data: string) => {
         const selection = this.determineWordTypeSelection(data);
 
@@ -73,6 +84,7 @@ export class CreateSentenceComponent implements OnInit {
           }
           )};
       })
+    )
   }
 
   determineWordTypeSelection(data: string): number {
@@ -173,25 +185,29 @@ export class CreateSentenceComponent implements OnInit {
       )
   }
 
-  clearSentence() {
+  clearSentence(): void {
     this.sentenceString = '';
   }
 
-  resetForm() {
+  resetForm(): void {
     this.createSentenceForm.reset();
     this.createSentenceForm.get('word')?.setErrors(null);
     this.createSentenceForm.get('wordType')?.setErrors(null);
   }
 
-  wordClick() {
+  wordClick(): void {
     if (this.words.length === 0) {
       this.matSnackBar.open("Please select a word type!", "Close", { duration: 2000 })
     }
   }
 
-  wordTypeClick() {
+  wordTypeClick(): void {
     if (this.wordTypes.length === 0) {
       this.matSnackBar.open("Sorry, we couldn't load the word types right now!", "Close", { duration: 2000 })
     }
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

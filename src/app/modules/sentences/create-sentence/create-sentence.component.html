@@ -1,26 +1,43 @@
 <div class="container" >
     <form action="" [formGroup]="createSentenceForm">
         <mat-form-field>
-            <mat-select formControlName="wordType" name="wordType" placeholder="Word type">
-                <mat-option value="verb">Verb</mat-option>
-                <mat-option value="noun">Noun</mat-option>
-                <mat-option value="pronoun">Pronoun</mat-option>
+            <mat-select (click)="wordTypeClick()" formControlName="wordType" name="wordType" placeholder="Select word type">
+                <mat-option *ngFor="let type of wordTypes" [value]="type">{{ type }}</mat-option>
             </mat-select>
+            <mat-error *ngFor="let validation of validationMessages.wordType">
+                <mat-error class="error-message" 
+                           *ngIf="createSentenceForm.get('wordType')?.hasError(validation.type) && (createSentenceForm.get('wordType')?.dirty || createSentenceForm.get('wordType')?.touched)">
+                    {{validation.message}}
+                </mat-error>
+              </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-select formControlName="word" name="word" placeholder="Word">
-                <mat-option value="word 1">Word 1</mat-option>
-                <mat-option value="word 2">Word 2</mat-option>
-                <mat-option value="word 3">Word 3</mat-option>
+            <mat-select (click)="wordClick()" formControlName="word" name="word" placeholder="Select word">
+                <mat-option *ngFor="let word of words" [value]="word">{{ word }}</mat-option>
             </mat-select>
+            <mat-error *ngFor="let validation of validationMessages.word">
+                <mat-error class="error-message" 
+                           *ngIf="createSentenceForm.get('word')?.hasError(validation.type) && (createSentenceForm.get('word')?.dirty || createSentenceForm.get('word')?.touched)">
+                    {{validation.message}}
+                </mat-error>
+              </mat-error>
         </mat-form-field>
 
-        <button (click)="addToSentence()">Add to sentence</button>
+        <div class="actions">
+            <button mat-raised-button (click)="addToSentence()">Add to sentence</button>
+            <button mat-raised-button (click)="resetForm()">Reset</button>
+        </div>
     </form>
 
-    <div *ngIf="sentenceString" class="sentence-container">
-        <p>"{{ sentenceString }}..."</p>
-        <button (click)="submitSentence()">Submit sentence</button>
+    <div *ngIf="sentenceString" class="sentence">
+        <p *ngIf="!loading">"{{ sentenceString }}..."</p>
+        <div class="spinner" *ngIf="loading"></div>
+        <button mat-raised-button color="primary" (click)="submitSentence()">Submit sentence</button>
+        <button class="clear-button" mat-raised-button color="warn" (click)="clearSentence()">Clear sentence</button>
     </div>
+    <div *ngIf="!sentenceString" class="sentence">
+        <p class="sentence-placeholder">Select a word type and a word to start building a sentence...</p>
+    </div>
+    
 </div>

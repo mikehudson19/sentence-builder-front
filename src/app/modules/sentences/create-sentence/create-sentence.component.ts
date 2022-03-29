@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, Observable, Subscription } from 'rxjs';
+import { map, Subject, Subscription } from 'rxjs';
 import { SentencesService } from 'src/app/services/sentences.service';
 import { WordTypeService } from 'src/app/services/word-type.service';
 import { WordService } from 'src/app/services/word.service';
 import { WordTypeEnum } from 'src/app/types/word-type-enum';
+import { ExitConfirmDialogComponent } from '../../shared/dialogs/exit-confirm-dialog/exit-confirm-dialog.component';
 
 @Component({
   selector: 'app-create-sentence',
   templateUrl: './create-sentence.component.html',
   styleUrls: ['./create-sentence.component.scss']
 })
-export class CreateSentenceComponent implements OnInit {
+export class CreateSentenceComponent implements OnInit, OnDestroy {
 
   createSentenceForm: FormGroup
   sentenceArray: string[] = [];
@@ -21,6 +23,7 @@ export class CreateSentenceComponent implements OnInit {
   words: string[] = [];
   loading = false;
   sub = new Subscription();
+  canExit$: Subject<boolean> = new Subject<boolean>(); 
 
   validationMessages = {
     'wordType': [
@@ -35,7 +38,8 @@ export class CreateSentenceComponent implements OnInit {
               private matSnackBar: MatSnackBar,
               private wordTypeService: WordTypeService,
               private wordService: WordService,
-              private sentenceService: SentencesService) { }
+              private sentenceService: SentencesService,
+              private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.createSentenceForm = this.formBuilder.group({
@@ -180,13 +184,26 @@ export class CreateSentenceComponent implements OnInit {
         complete: () => {
             this.matSnackBar.open("Sentence submitted!", "Close", { duration: 2000 });
             this.sentenceString = '';
+            this.sentenceArray = [];
             this.loading = false;
-        } }
+        }}
       )
+  }
+
+  canExit() {
+    if (this.sentenceArray.length > 0) {
+      const exitConfirmDialog = this.matDialog.open(ExitConfirmDialogComponent);
+
+      exitConfirmDialog.afterClosed()
+        .subscribe((choice: boolean) => {
+          this.canExit$.next(choice);
+        })
+      } 
   }
 
   clearSentence(): void {
     this.sentenceString = '';
+    this.sentenceArray = [];
   }
 
   resetForm(): void {

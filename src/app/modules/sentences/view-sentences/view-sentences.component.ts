@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -27,9 +28,15 @@ export class ViewSentencesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 
   constructor(private router: Router,
-              private sentenceService: SentencesService) {}
+              private sentenceService: SentencesService,
+              private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
+
+    this.breakpointObserver.observe('(max-width: 440px)').subscribe(x => {
+        this.firstLastButtons = !x.matches;
+    });
+
     this.sentenceService.list()
       .pipe(
         map(res => {

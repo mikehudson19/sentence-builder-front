@@ -31,4 +31,21 @@
     font-size: 15px;
     color: black;
   }
+
+  @media (max-width: 600px) {
+    .header-container {
+      flex-direction: column;
+      margin-bottom: 1rem;
+
+      .header-actions {
+        width: 70%;
+        justify-content: center;
+      }
+    }
+
+    mat-cell {
+      padding: 8px 0;
+    }
+ 
+  }
   

@@ -3,13 +3,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
+import { SentencesService } from 'src/app/services/sentences.service';
 
 @Component({
   selector: 'app-view-sentences',
   templateUrl: './view-sentences.component.html',
   styleUrls: ['./view-sentences.component.scss']
 })
-export class ViewSentencesComponent implements OnInit, AfterViewInit {
+export class ViewSentencesComponent implements OnInit {
 
   displayedColumns: string[] = [ 'sentence' ];
   dataSource!: MatTableDataSource<any>;
@@ -24,27 +26,20 @@ export class ViewSentencesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+              private sentenceService: SentencesService) {}
 
   ngOnInit(): void {
-
-  }
-
-  ngAfterViewInit(): void {
-    const data = <any>[
-      'Tumblr kitsch cred VHS pok pok, shaman seitan direct trade enamel pin',
-      'Banjo meggings biodiesel mixtape retro migas.',
-      'Vice PBR&B kale chips, cloud bread messenger bag stumptown street art butcher dreamcatcher retro trust fund.',
-      'Vice PBR&B kale chips, cloud bread messenger bag stumptown street art butcher dreamcatcher retro trust fund.','Tumblr kitsch cred VHS pok pok, shaman seitan direct trade enamel pin',
-      'Banjo meggings biodiesel mixtape retro migas.',
-      'Vice PBR&B kale chips, cloud bread messenger bag stumptown street art butcher dreamcatcher retro trust fund.',
-      'Vice PBR&B kale chips, cloud bread messenger bag stumptown street art butcher dreamcatcher retro trust fund.','Tumblr kitsch cred VHS pok pok, shaman seitan direct trade enamel pin',
-      'Banjo meggings biodiesel mixtape retro migas.',
-      'Vice PBR&B kale chips, cloud bread messenger bag stumptown street art butcher dreamcatcher retro trust fund.',
-      'Vice PBR&B kale chips, cloud bread messenger bag stumptown street art butcher dreamcatcher retro trust fund.'
-  ];
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
+    this.sentenceService.list()
+      .pipe(
+        map(res => {
+          return res.map((x: any) => x.value);
+        })
+      )
+      .subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   addSentenceClick() {

@@ -2,13 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { SentencesService } from 'src/app/services/sentences.service';
 import { WordTypeService } from 'src/app/services/word-type.service';
 import { WordService } from 'src/app/services/word.service';
 import { IWord } from 'src/app/types/IWord';
 import { IWordType } from 'src/app/types/IWordType';
-import { WordTypeEnum } from 'src/app/types/word-type-enum';
 import { ExitConfirmDialogComponent } from '../../shared/dialogs/exit-confirm-dialog/exit-confirm-dialog.component';
 
 @Component({

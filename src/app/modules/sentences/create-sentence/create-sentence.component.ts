@@ -9,6 +9,7 @@ import { WordService } from 'src/app/services/word.service';
 import { IWord } from 'src/app/types/IWord';
 import { IWordType } from 'src/app/types/IWordType';
 import { ExitConfirmDialogComponent } from '../../shared/dialogs/exit-confirm-dialog/exit-confirm-dialog.component';
+import { ClearSentenceDialogComponent } from '../dialogs/clear-sentence-dialog/clear-sentence-dialog.component';
 
 @Component({
   selector: 'app-create-sentence',
@@ -157,8 +158,15 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
   }
 
   clearSentence(): void {
-    this.sentenceString = '';
-    this.sentenceArray = [];
+    const dialog = this.matDialog.open(ClearSentenceDialogComponent);
+
+    dialog.afterClosed().subscribe(choice => {
+      if (choice) {
+        this.sentenceString = '';
+        this.sentenceArray = [];
+      }
+      return;
+    })
   }
 
   resetForm(): void {

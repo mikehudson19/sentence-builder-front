@@ -5,13 +5,15 @@ import { ViewSentencesComponent } from './view-sentences/view-sentences.componen
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ClearSentenceDialogComponent } from './dialogs/clear-sentence-dialog/clear-sentence-dialog.component';
 
 
 
 @NgModule({
   declarations: [
     CreateSentenceComponent,
-    ViewSentencesComponent
+    ViewSentencesComponent,
+    ClearSentenceDialogComponent
   ],
   imports: [
     CommonModule,

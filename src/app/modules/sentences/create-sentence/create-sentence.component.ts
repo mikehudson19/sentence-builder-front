@@ -73,53 +73,17 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
       .subscribe((data: string) => {
         const selection = this.determineWordTypeSelection(data);
 
-        if (selection !== 0) {
           this.wordService.list(selection)
             .subscribe((words) => {
               this.words = words;
             }
-          )};
+          );
       })
     )
   }
 
   determineWordTypeSelection(data: string): number {
-    let selection;
-
-    switch (data) {
-      case "Noun":
-        selection = WordTypeEnum.Noun;
-        break;
-      case "Verb":
-        selection = WordTypeEnum.Verb;
-        break;
-      case "Adjective":
-        selection = WordTypeEnum.Adjective;
-        break;
-      case "Adverb":
-        selection = WordTypeEnum.Adverb;
-        break;
-      case "Pronoun":
-        selection = WordTypeEnum.Pronoun;
-        break;
-      case "Preposition":
-        selection = WordTypeEnum.Preposition;
-        break;
-      case "Conjunction":
-        selection = WordTypeEnum.Conjunction;
-        break;
-      case "Determiner":
-        selection = WordTypeEnum.Determiner;
-        break;
-      case "Exclamation":
-        selection = WordTypeEnum.Exclamation;
-        break;
-    
-      default:
-        selection = 0;
-        break;
-    }
-    return selection;
+    return this.wordTypes.findIndex(x => x.value === data) + 1;
   }
 
   addToSentence(): void {

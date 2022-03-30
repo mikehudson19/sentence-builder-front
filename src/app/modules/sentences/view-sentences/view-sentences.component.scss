@@ -5,23 +5,14 @@
     margin: 0 auto;
   }
   
-  .header-container {
+  .header-actions {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-  
-    .header-actions {
-      display: flex;
-      width: 40%;
-      align-items: center;
-      justify-content: flex-end;
-    }
-  
-    h1 {
-      margin-top: 1rem;
-    }
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin: 1rem 0;
   }
-
+  
   a:hover {
     cursor: pointer;
   }
@@ -33,16 +24,10 @@
   }
 
   @media (max-width: 600px) {
-    .header-container {
-      flex-direction: column;
-      margin-bottom: 1rem;
-
-      .header-actions {
-        width: 70%;
-        justify-content: center;
-      }
+    .header-actions {
+      justify-content: center;
     }
-
+    
     mat-cell {
       padding: 8px 0;
     }

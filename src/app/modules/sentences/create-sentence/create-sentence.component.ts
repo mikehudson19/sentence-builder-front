@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, Subscription } from 'rxjs';
+import {map, Subject, Subscription, tap} from 'rxjs';
 import { SentencesService } from 'src/app/services/sentences.service';
 import { WordTypeService } from 'src/app/services/word-type.service';
 import { WordService } from 'src/app/services/word.service';
@@ -25,7 +25,7 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
   words: IWord[] = [];
   loading = false;
   sub = new Subscription();
-  canExit$: Subject<boolean> = new Subject<boolean>(); 
+  canExit$: Subject<boolean> = new Subject<boolean>();
 
   validationMessages = {
     'wordType': [
@@ -61,6 +61,7 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
               this.wordTypes = data;
             },
             error: (e) => {
+              console.error(e);
               this.matSnackBar.open("Word type data couldn't be loaded!", "Close", { duration: 2000 });
             },
             complete: () => {}
@@ -72,7 +73,6 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
       this.createSentenceForm.get('wordType')?.valueChanges
       .subscribe((data: string) => {
         const selection = this.determineWordTypeSelection(data);
-
           this.wordService.list(selection)
             .subscribe((words) => {
               this.words = words;
@@ -83,7 +83,7 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
   }
 
   determineWordTypeSelection(data: string): number {
-    return this.wordTypes.findIndex(x => x.value === data) + 1;
+    return this.wordTypes.findIndex(x => x.wordType === data) + 1;
   }
 
   addToSentence(): void {
@@ -103,14 +103,14 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
       this.createSentenceForm.markAsDirty();
       return;
     }
-  
+
     let word = this.createSentenceForm.get('word')?.value;
     const firstWord = this.sentenceArray.length === 0;
 
     if (firstWord) {
       const firstLetter = word.substring(0, 1).toUpperCase();
       const restOfWord = word.substring(1);
-     
+
       word = firstLetter + restOfWord;
     }
 
@@ -128,7 +128,6 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
     const sentence = {
       value: this.sentenceString
     }
-
     this.loading = true;
     this.sentenceService.create(sentence)
       .subscribe({
@@ -154,7 +153,7 @@ export class CreateSentenceComponent implements OnInit, OnDestroy {
         .subscribe((choice: boolean) => {
           this.canExit$.next(choice);
         })
-      } 
+      }
   }
 
   clearSentence(): void {

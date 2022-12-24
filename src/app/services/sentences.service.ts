@@ -17,7 +17,7 @@ export class SentencesService {
     return this.http.get<ISentence[]>(`${environment.apiUrl}/${this.apiUrl}`);
   }
 
-  create(body: any): Observable<ISentence> {
-    return this.http.post<ISentence>(`${environment.apiUrl}/${this.apiUrl}`, body);
+  create(body: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/${this.apiUrl}`, body);
   }
 }

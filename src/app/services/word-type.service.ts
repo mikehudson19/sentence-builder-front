@@ -14,7 +14,7 @@ export class WordTypeService {
 
   constructor(private http: HttpClient) { }
 
-  list(): Observable<IWordType[]> {
-    return this.http.get<IWordType[]>(`${environment.apiUrl}/${this.apiUrl}`);
+  list(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${this.apiUrl}`);
   }
 }

@@ -1,3 +1,3 @@
 export interface ISentence {
-    value: string;
+    sentence: string;
 }

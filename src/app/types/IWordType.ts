@@ -1,3 +1,3 @@
 export interface IWordType {
-    value: string;
+    wordType: string;
 }

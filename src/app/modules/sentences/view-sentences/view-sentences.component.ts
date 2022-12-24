@@ -41,7 +41,7 @@ export class ViewSentencesComponent implements OnInit {
     this.sentenceService.list()
       .pipe(
         map(res => {
-          return res.map((x: ISentence) => x.value);
+          return res.map((x: ISentence) => x.sentence);
         })
       )
       .subscribe(data => {
